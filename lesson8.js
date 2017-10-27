@@ -1,86 +1,149 @@
 function lesson8() {
+	//Заголовки заданий
+	const exercisesName = ['Sum of Matrix', 'Difference of Matrix', 'Product of Matrix', 'Modul of Matrix'];
+	//Добавляем урок
     addLesson("Math Matrix");
-    for (var i = 1; i <= 4; i++) {
-        ((i == 3) ? addExercise(8, i, 1) : addExercise(8, i, 2));
-    }
+	//Добавляем задания
+    for (var i = 0; i < 4; i++) {((i == 2) ? addExercise(8, exercisesName[i], 1) : addExercise(8, exercisesName[i], 2));}
+	//Добавляем поля ответов
+	for (var i = 1; i <= 3; i++) {addMatrixAnswer(8, i, 3);}
+	addMatrixAnswer(8, 4, 1);
+	addAnswer(8, 4);
 
-    var button1 = document.getElementById("buttonL8E1");    //plus Matrix
-    var button2 = document.getElementById("buttonL8E2");    //minus Matrix
-    var button3 = document.getElementById("buttonL8E3");    //mult Matrix
-    var button4 = document.getElementById("buttonL8E4");    //modul Matrix
+    var contents = document.getElementsByClassName('content-elem');
+	var exercises = contents[7].getElementsByClassName('exercise');
 
-    button1.onclick = function () {
-        var input1 = document.getElementById("inputL8E1_1").value - 0;
-        var input2 = document.getElementById("inputL8E1_2").value - 0;
-
-        if (input1 && input1 >= 1 && input2 && input2 >= 1) {
-            var sizeX = input1;
-            var sizeY = input2;
-
-            genMatrixInputs("L8E1", 2, sizeX, sizeY);
-
-            document.getElementById("calcButtonL8E1").addEventListener('click', function () {
-                var a = getMatrix("matrix1L8E1", sizeX, sizeY);
-                var b = getMatrix("matrix2L8E1", sizeX, sizeY);
-
-                printMatrix("matrixAnswerL8E1", plusMatrix(a, b));
-            });
-        }
-    }
-
-    button2.onclick = function () {
-        var input1 = document.getElementById("inputL8E2_1").value - 0;
-        var input2 = document.getElementById("inputL8E2_2").value - 0;
+    exercises[0].getElementsByClassName('enter-button')[0].onclick = function () {		//Сумма матриц
+        var input1 = exercises[0].getElementsByClassName('input-field')[0].value - 0;
+        var input2 = exercises[0].getElementsByClassName('input-field')[1].value - 0;
+		var answerField = exercises[0].getElementsByClassName('answer')[0];
+		var matrixFields = [answerField.getElementsByClassName('matrix-field')[0], 
+							answerField.getElementsByClassName('matrix-field')[1], 
+							answerField.getElementsByClassName('matrix-field')[2]];
 
         if (input1 && input1 >= 1 && input2 && input2 >= 1) {
             var sizeX = input1;
             var sizeY = input2;
+			
+			removeClass(answerField, 'hide');
+			addClass(answerField, 'show');
 
-            genMatrixInputs("L8E2", 2, sizeX, sizeY);
+			for (var i = 0; i < 3; i++) {
+				genMatrixInputs(matrixFields[i], sizeX, sizeY);
+			}
 
-            document.getElementById("calcButtonL8E2").addEventListener('click', function () {
-                var a = getMatrix("matrix1L8E2", sizeX, sizeY);
-                var b = getMatrix("matrix2L8E2", sizeX, sizeY);
-
-                printMatrix("matrixAnswerL8E2", minusMatrix(a, b));
-            });
+            for (var i = 0; i < 2; i++) {
+				for (var j = 0; j < matrixFields[i].getElementsByClassName('matrix-elem').length; j++) {
+					matrixFields[i].getElementsByClassName('matrix-elem')[j].addEventListener('keyup', function (event) {
+						if (event.keyCode - 48 >= 0 && event.keyCode - 48 <= 9 || event.keyCode == 13) {
+							var a = getMatrix(matrixFields[0], sizeX, sizeY);
+							var b = getMatrix(matrixFields[1], sizeX, sizeY);
+							
+							printMatrix(matrixFields[2], plusMatrix(a, b));
+						} else {
+							this.value = '';
+						}
+					});
+				}
+			}
         }
     }
 
-    button3.onclick = function () {
-        var input = document.getElementById("inputL8E3_1").value - 0;
+    exercises[1].getElementsByClassName('enter-button')[0].onclick = function () {		//Разность матриц
+        var input1 = exercises[1].getElementsByClassName('input-field')[0].value - 0;
+        var input2 = exercises[1].getElementsByClassName('input-field')[1].value - 0;
+		var answerField = exercises[1].getElementsByClassName('answer')[0];
+		var matrixFields = [answerField.getElementsByClassName('matrix-field')[0], 
+							answerField.getElementsByClassName('matrix-field')[1], 
+							answerField.getElementsByClassName('matrix-field')[2]];
+
+        if (input1 && input1 >= 1 && input2 && input2 >= 1) {
+            var sizeX = input1;
+            var sizeY = input2;
+			
+			removeClass(answerField, 'hide');
+			addClass(answerField, 'show');
+
+			for (var i = 0; i < 3; i++) {
+				genMatrixInputs(matrixFields[i], sizeX, sizeY);
+			}
+
+            for (var i = 0; i < 2; i++) {
+				for (var j = 0; j < matrixFields[i].getElementsByClassName('matrix-elem').length; j++) {
+					matrixFields[i].getElementsByClassName('matrix-elem')[j].addEventListener('keyup', function (event) {
+						if (event.keyCode - 48 >= 0 && event.keyCode - 48 <= 9 || event.keyCode == 13) {
+							var a = getMatrix(matrixFields[0], sizeX, sizeY);
+							var b = getMatrix(matrixFields[1], sizeX, sizeY);
+							
+							printMatrix(matrixFields[2], minusMatrix(a, b));
+						} else {
+							this.value = '';
+						}
+					});
+				}
+			}
+        }
+    }
+
+    exercises[2].getElementsByClassName('enter-button')[0].onclick = function () {		//Произведение матриц
+        var input = exercises[2].getElementsByClassName('input-field')[0].value - 0;
+		var answerField = exercises[2].getElementsByClassName('answer')[0];
+		var matrixFields = [answerField.getElementsByClassName('matrix-field')[0], 
+							answerField.getElementsByClassName('matrix-field')[1], 
+							answerField.getElementsByClassName('matrix-field')[2]];
 
         if (input && input >= 1) {
             var size = input;
+			removeClass(answerField, 'hide');
+			addClass(answerField, 'show');
 
-            genMatrixInputs("L8E3", 2, size, size);
+			for (var i = 0; i < 3; i++) {
+				genMatrixInputs(matrixFields[i], size, size);
+			}
 
-            document.getElementById("calcButtonL8E3").addEventListener('click', function () {
-                var a = getMatrix("matrix1L8E3", size, size);
-                var b = getMatrix("matrix2L8E3", size, size);
-
-                printMatrix("matrixAnswerL8E3", multMatrix(a, b));
-            });
+            for (var i = 0; i < 2; i++) {
+				for (var j = 0; j < matrixFields[i].getElementsByClassName('matrix-elem').length; j++) {
+					matrixFields[i].getElementsByClassName('matrix-elem')[j].addEventListener('keyup', function (event) {
+						if (event.keyCode - 48 >= 0 && event.keyCode - 48 <= 9 || event.keyCode == 13) {
+							var a = getMatrix(matrixFields[0], size, size);
+							var b = getMatrix(matrixFields[1], size, size);
+							
+							printMatrix(matrixFields[2], multMatrix(a, b));
+						} else {
+							this.value = '';
+						}
+					});
+				}
+			}
         }
     }
 
-    button4.onclick = function () {
-        var input1 = document.getElementById("inputL8E4_1").value - 0;
-        var input2 = document.getElementById("inputL8E4_2").value - 0;
+    exercises[3].getElementsByClassName('enter-button')[0].onclick = function () {		//Модуль матрицы
+        var input1 = exercises[3].getElementsByClassName('input-field')[0].value - 0;
+        var input2 = exercises[3].getElementsByClassName('input-field')[1].value - 0;
+		var output = exercises[3].getElementsByClassName('output-field')[0];
+		var answerField = exercises[3].getElementsByClassName('answer')[0];
+		var matrixField = answerField.getElementsByClassName('matrix-field')[0];
 
         if (input1 && input1 >= 1 && input2 && input2 >= 1) {
             var sizeX = input1;
             var sizeY = input2;
+			removeClass(answerField, 'hide');
+			addClass(answerField, 'show');
 
-            genMatrixInputs("L8E4", 1, sizeX, sizeY);
+            genMatrixInputs(matrixField, sizeX, sizeY);
 
-            addAnswer(8, 4);
-
-            document.getElementById("calcButtonL8E4").addEventListener('click', function () {
-                var a = getMatrix("matrix1L8E4", sizeX, sizeY);
-
-                document.getElementById("outputL8E4").value = modulMatrix(a);
-            });
+            for (var i = 0; i < matrixField.getElementsByClassName('matrix-elem').length; i++) {
+				matrixField.getElementsByClassName('matrix-elem')[i].addEventListener('keyup', function (event) {
+					if (event.keyCode - 48 >= 0 && event.keyCode - 48 <= 9 || event.keyCode == 13) {
+						var a = getMatrix(matrixField, sizeX, sizeY);
+						
+						output.value = modulMatrix(a);
+					} else {
+						this.value = '';
+					}
+				});
+			}
         }
     }
 }

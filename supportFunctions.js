@@ -1,68 +1,91 @@
-//===== ===== ===== ===== ===== ===== ===== ===== ===== ===== =====
-//===== ===== ===== ===== Функции создания меню ===== ===== =====
-//===== ===== ===== ===== ===== ===== ===== ===== ===== ===== =====
+/*
+===== ===== ===== Функции для создания элементов меню ===== ===== =====
+*/
 
 function addLesson(lessonName) {
-    var head = document.getElementById("head");
-    var content = document.getElementById("content");
-	
-    var headElem = document.createElement("div");
-    headElem.setAttribute("class", "header-elem");
-    headElem.setAttribute("data-content-id", "lesson_" + lessons);
-    headElem.innerHTML = "L" + lessons + ". " + lessonName;
-    head.appendChild(headElem);
-	
-    var contentElem = document.createElement("div");
-    contentElem.setAttribute("class", "content-elem hide");
-    contentElem.setAttribute("id", "lesson_" + lessons);
-    content.appendChild(contentElem);
-	
-    lessons++;
+	var head = document.getElementById('head');
+	var content = document.getElementById('content');
+	//Добавляем кнопку урока
+	var headElem = document.createElement('div');
+	headElem.setAttribute('class', 'head-elem');
+	headElem.innerHTML = "L" + (document.getElementsByClassName('head-elem').length + 1) + ". " + lessonName;
+	head.appendChild(headElem);
+	//Добавляем контент урока
+	var contentElem = document.createElement('div')
+	contentElem.setAttribute('class', 'content-elem hide');
+	content.appendChild(contentElem);
 }
 
-function addExercise(lesson, slot, inputNum) {
-    var content = document.getElementById("lesson_" + lesson);
-    var exercise = document.createElement("div");
+function addExercise(lessonNumber, exerciseName, inputFieldsNumber) {
+	var contents = document.getElementsByClassName('content-elem');
+	//Добавляем поле упражнения
+	var exercise = document.createElement("div");
     exercise.setAttribute("class", "exercise");
-    content.appendChild(exercise);
-    var exeTitle = document.createElement("h3");
-    exeTitle.innerHTML = "Ex" + slot + ". ";
+    contents[lessonNumber - 1].appendChild(exercise);
+	//Добавляем заголовок задания
+	var exeTitle = document.createElement("h3");
+    exeTitle.innerHTML = "Ex" + (contents[lessonNumber - 1].getElementsByClassName('exercise').length) + ". "  + exerciseName;
     exercise.appendChild(exeTitle);
-    for (var i = 1; i <= inputNum; i++) {
-        var inText = document.createElement("span");
-        inText.innerHTML = "Input the number: ";
-        exercise.appendChild(inText);
+	//Добавляем поля ввода
+	for (var i = 1; i <= inputFieldsNumber; i++) {
+		//Добавляем текст-подсказку
+		var supText = document.createElement("span");
+        supText.innerHTML = "Input the number: ";
+        exercise.appendChild(supText);
+		//Добавляем поле ввода
         var input = document.createElement("input");
-        input.setAttribute("id", "inputL" + lesson + "E" + slot + "_" + i);
         input.setAttribute("type", "text");
+		input.setAttribute("class", "input-field");
+		input.setAttribute("maxlength", 5);
         exercise.appendChild(input);
-        if (i == inputNum) {
-            var button = document.createElement("input");
-            button.setAttribute("id", "buttonL" + lesson + "E" + slot);
-            button.setAttribute("type", "button");
-            button.setAttribute("value", "Enter");
-            exercise.appendChild(button);
-        }
-        var newLine = document.createElement("br");
-        exercise.appendChild(newLine);
-    }
-    var answerBlock = document.createElement("div");
-    answerBlock.setAttribute("id", "answerL" + lesson + "E" + slot);
-    answerBlock.setAttribute("class", "answer");
+		//Переносим строку
+		if (i != inputFieldsNumber) {
+			exercise.innerHTML += '</br>';
+		}
+	}
+	//Добавляем кнопку
+	var button = document.createElement("input");
+	button.setAttribute("type", "button");
+	button.setAttribute("class", "enter-button");
+	button.setAttribute("value", "Enter");
+	exercise.appendChild(button);
+	//Добавляем поле для ответа
+	var answerBlock = document.createElement("div");
+    answerBlock.setAttribute("class", "answer hide");
     exercise.appendChild(answerBlock);
 }
 
-function addAnswer(lesson, slot) {
-    var answerBlock = document.getElementById("answerL" + lesson + "E" + slot);
-    var outText = document.createElement("span");
+function addAnswer(lessonNumber, exerciseNumber) {
+	var contents = document.getElementsByClassName('content-elem');
+	var exercises = contents[lessonNumber - 1].getElementsByClassName('exercise');
+	var answerBlock = exercises[exerciseNumber - 1].getElementsByClassName('answer')[0];
+	//Добавляем текст-подсказку
+	var outText = document.createElement("span");
     outText.innerHTML = "Answer: ";
     answerBlock.appendChild(outText);
-    var output = document.createElement("input");
-    output.setAttribute("id", "outputL" + lesson + "E" + slot);
+	//Добавляем поле вывода
+	var output = document.createElement("input");
+    output.setAttribute("class", "output-field");
     output.setAttribute("type", "text");
     output.setAttribute("readonly", true);
     answerBlock.appendChild(output);
 }
+
+function addMatrixAnswer(lessonNumber, exerciseNumber, matrixNumber) {
+	var contents = document.getElementsByClassName('content-elem');
+	var exercises = contents[lessonNumber - 1].getElementsByClassName('exercise');
+	var answerBlock = exercises[exerciseNumber - 1].getElementsByClassName('answer')[0];
+	//Добавляем поля для матриц
+	for (var i = 0; i < matrixNumber; i++) {
+		var matrixField = document.createElement('div');
+		matrixField.setAttribute('class', 'matrix-field');
+		answerBlock.appendChild(matrixField);
+	}
+}
+
+/*
+===== ===== ===== Вспомогательные функции ===== ===== =====
+*/
 
 function addClass(elem, _class) {
     var arr = elem.className.split(" ");
@@ -80,62 +103,60 @@ function removeClass(elem, _class) {
     }
 };
 
-//===== ===== ===== ===== ===== ===== ===== ===== ===== ===== =====
-//===== ===== ===== ===== Вспомогательные функции ===== ===== =====
-//===== ===== ===== ===== ===== ===== ===== ===== ===== ===== =====
-
 function randomNumber(min, max) {
     var num = min - 0.5 + Math.random() * (max - min + 1);
     num = Math.round(num);
     return num;
 }
 
-//===== ===== ===== ===== ===== ===== ===== ===== ===== ===== =====
-//===== ===== ===== ===== Функции матриц ===== ===== ===== =====
-//===== ===== ===== ===== ===== ===== ===== ===== ===== ===== =====
+/*
+===== ===== ===== Функции матриц ===== ===== =====	
+*/
 
-function genMatrixInputs(elemId, num, sizeX, sizeY) {
-    var str = '';
-    var inputValue;
-    for (var n = 1; n <= num; n++) {
-        str += '<div id="matrix' + n + elemId + '"><span> Matrix #' + n + '</span></br>';
-        for (var i = 0; i < sizeX; i++) {
-            for (var j = 0; j < sizeY; j++) {
-                inputValue = randomNumber(1, 9);
-                if (document.getElementById("matrix" + n + elemId + "Elem(" + i + ";" + j + ")") != null) {
-                    inputValue = document.getElementById("matrix" + n + elemId + "Elem(" + i + ";" + j + ")").value - 0;
-                }
-                str += '<input id="matrix' + n + elemId + 'Elem(' + i + ';' + j + ')" type="text" size="1" maxlength="2" value="' + inputValue + '" />';
-            }
-            str += '</br>';
-        }
-        str += '</div>';
-    }
-    str += '<input id="calcButton' + elemId + '" type="button" value="Calculation" /></br>';
-    str += '<div id="matrixAnswer' + elemId + '"></div>';
-    document.getElementById("answer" + elemId).innerHTML = str;
+function printMatrix(elem, arr) {
+	for (var i = 0; i < arr.length; i++) {
+		for (var j = 0; j < arr[i].length; j++) {
+			var matrixElem = elem.getElementsByClassName('matrix-elem')[i * arr[i].length + j];
+			matrixElem.setAttribute('disabled', true);
+			matrixElem.value = arr[i][j];
+		}
+	}
 }
 
-function getMatrix(elemId, sizeX, sizeY) {
+function genMatrixInputs(matrixField, sizeX, sizeY) {
+	var fieldValue = [];
+	for (var i = 0; i < sizeX; i++) {
+		fieldValue[i] = []
+		for (var j = 0; j < sizeY; j++) {
+			fieldValue[i][j] = null;
+			if (matrixField.getElementsByClassName('matrix-elem')[i * sizeY + j]) {
+				fieldValue[i][j] = matrixField.getElementsByClassName('matrix-elem')[i * sizeY + j].value - 0;
+			}
+		}
+	}
+	matrixField.innerHTML = '';
+	for (var i = 0; i < sizeX; i++) {
+		for (var j = 0; j < sizeY; j++) {
+			var matrixElem = document.createElement('input');
+			matrixElem.setAttribute('type', 'text');
+			matrixElem.setAttribute('class', 'matrix-elem');
+			matrixElem.setAttribute('maxlength', 2);
+			matrixElem.value = fieldValue[i][j];
+			matrixField.appendChild(matrixElem);
+		}
+		matrixField.innerHTML += '</br>';
+	}
+}
+
+function getMatrix(elem, sizeX, sizeY) {
     var arr = [];
     for (var i = 0; i < sizeX; i++) {
         arr[i] = [];
         for (var j = 0; j < sizeY; j++) {
-            arr[i][j] = document.getElementById(elemId + "Elem(" + i + ";" + j + ")").value - 0;
+            arr[i][j] = elem.getElementsByClassName('matrix-elem')[i * sizeY + j].value - 0;
         }
     }
     return arr;
-}
-
-function printMatrix(elemId, arr) {
-    var str = '<span>=== Answer ===</span></br>';
-    for (var i = 0; i < arr.length; i++) {
-        for (var j = 0; j < arr[i].length; j++) {
-            str += '<input type="text" size="1" readonly value="' + arr[i][j] + '">';
-        }
-        str += '</br>';
-    }
-    document.getElementById(elemId).innerHTML = str;
 }
 
 function plusMatrix(a, b) {

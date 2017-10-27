@@ -23,83 +23,116 @@ function cirSqrAim(x, y) {
 }
 
 function lesson1() {
+	const exercisesName = ['Graph 1', 'Graph 2', 'Sqr Aim', 'Round Aim', 'Broken Round Aim', 'Sqr & Round Broken Aim'];
+	//Добавляем урок
     addLesson("Target");
+	//Добавляем задания
+	for (var i = 0; i < 6; i++) {
+		((i < 2) ? addExercise(1, exercisesName[i], 1) : addExercise(1, exercisesName[i], 2));
+	}
+	//Добавляем поля для ответов
+	for (var i = 1; i <= 6; i++) {addAnswer(1, i);}
+	
+    var contents = document.getElementsByClassName('content-elem');
+	var exercises = contents[0].getElementsByClassName('exercise');
 
-    for (var i = 1; i <= 6; i++) {
-        ((i < 3) ? addExercise(1, i, 1, 1) : addExercise(1, i, 2, 1));
-        addAnswer(1, i);
+    exercises[0].getElementsByClassName('enter-button')[0].onclick = function () {		//Первый график
+        var input = exercises[0].getElementsByClassName('input-field')[0].value - 0;
+        var output = exercises[0].getElementsByClassName('output-field')[0];
+		var answerField = exercises[0].getElementsByClassName('answer')[0];
+		
+		removeClass(answerField, 'hide');
+		addClass(answerField, 'show');
+		
+		if (isNaN(input) || !input) {
+            alert("Enter the number");
+            return;
+        }
+
+        output.value = getY1(input);
     }
 
-    var button1 = document.getElementById("buttonL1E1");
-    var button2 = document.getElementById("buttonL1E2");
-    var button3 = document.getElementById("buttonL1E3");
-    var button4 = document.getElementById("buttonL1E4");
-    var button5 = document.getElementById("buttonL1E5");
-    var button6 = document.getElementById("buttonL1E6");
+    exercises[1].getElementsByClassName('enter-button')[0].onclick = function () {		//Второй график
+        var input = exercises[1].getElementsByClassName('input-field')[0].value - 0;
+        var output = exercises[1].getElementsByClassName('output-field')[0];
+		var answerField = exercises[1].getElementsByClassName('answer')[0];
+		
+		removeClass(answerField, 'hide');
+		addClass(answerField, 'show');
+		
+		if (isNaN(input) || !input) {
+            alert("Enter the number");
+            return;
+        }
 
-    button1.onclick = function () {
-        var input = document.getElementById("inputL1E1_1");
-        var output = document.getElementById("outputL1E1");
-        var value = input.value;
-
-        output.value = getY1(value);
-        input.value = null;
+        output.value = getY2(input);
     }
 
-    button2.onclick = function () {
-        var input = document.getElementById("inputL1E2_1");
-        var output = document.getElementById("outputL1E2");
-        var value = input.value;
+    exercises[2].getElementsByClassName('enter-button')[0].onclick = function () {		//Квадратная мишень
+        var inputX = exercises[2].getElementsByClassName('input-field')[0].value - 0;
+        var inputY = exercises[2].getElementsByClassName('input-field')[1].value - 0;
+        var output = exercises[2].getElementsByClassName('output-field')[0];
+		var answerField = exercises[2].getElementsByClassName('answer')[0];
+		
+		removeClass(answerField, 'hide');
+		addClass(answerField, 'show');
+		
+		if (isNaN(inputX) || !inputX || isNaN(inputY) || !inputY) {
+            alert("Enter the number");
+            return;
+        }
 
-        output.value = getY2(value);
-        input.value = null;
+        output.value = sqrAim(inputX, inputY);
     }
 
-    button3.onclick = function () {
-        var inputX = document.getElementById("inputL1E3_1");
-        var inputY = document.getElementById("inputL1E3_2");
-        var output = document.getElementById("outputL1E3");
-        var valueX = inputX.value;
-        var valueY = inputY.value;
+    exercises[3].getElementsByClassName('enter-button')[0].onclick = function () {		//Круглая мишень
+        var inputX = exercises[3].getElementsByClassName('input-field')[0].value - 0;
+        var inputY = exercises[3].getElementsByClassName('input-field')[1].value - 0;
+        var output = exercises[3].getElementsByClassName('output-field')[0];
+		var answerField = exercises[3].getElementsByClassName('answer')[0];
+		
+		removeClass(answerField, 'hide');
+		addClass(answerField, 'show');
+		
+		if (isNaN(inputX) || !inputX || isNaN(inputY) || !inputY) {
+            alert("Enter the number");
+            return;
+        }
 
-        output.value = sqrAim(valueX, valueY);
-        inputX.value = null;
-        inputY.value = null;
+        output.value = cirAim(inputX, inputY);
     }
 
-    button4.onclick = function () {
-        var inputX = document.getElementById("inputL1E4_1");
-        var inputY = document.getElementById("inputL1E4_2");
-        var output = document.getElementById("outputL1E4");
-        var valueX = inputX.value;
-        var valueY = inputY.value;
+    exercises[4].getElementsByClassName('enter-button')[0].onclick = function () {		//Сломаная круглая мишень
+        var inputX = exercises[4].getElementsByClassName('input-field')[0].value - 0;
+        var inputY = exercises[4].getElementsByClassName('input-field')[1].value - 0;
+        var output = exercises[4].getElementsByClassName('output-field')[0];
+		var answerField = exercises[4].getElementsByClassName('answer')[0];
+		
+		removeClass(answerField, 'hide');
+		addClass(answerField, 'show');
+		
+		if (isNaN(inputX) || !inputX || isNaN(inputY) || !inputY) {
+            alert("Enter the number");
+            return;
+        }
 
-        output.value = cirAim(valueX, valueY);
-        inputX.value = null;
-        inputY.value = null;
+        output.value = brkCirAim(inputX, inputY);
     }
 
-    button5.onclick = function () {
-        var inputX = document.getElementById("inputL1E5_1");
-        var inputY = document.getElementById("inputL1E5_2");
-        var output = document.getElementById("outputL1E5");
-        var valueX = inputX.value;
-        var valueY = inputY.value;
+    exercises[5].getElementsByClassName('enter-button')[0].onclick = function () {		//Сломанная круглая и квадратная мишень
+        var inputX = exercises[5].getElementsByClassName('input-field')[0].value - 0;
+        var inputY = exercises[5].getElementsByClassName('input-field')[1].value - 0;
+        var output = exercises[5].getElementsByClassName('output-field')[0];
+		var answerField = exercises[5].getElementsByClassName('answer')[0];
+		
+		removeClass(answerField, 'hide');
+		addClass(answerField, 'show');
+		
+		if (isNaN(inputX) || !inputX || isNaN(inputY) || !inputY) {
+            alert("Enter the number");
+            return;
+        }
 
-        output.value = brkCirAim(valueX, valueY);
-        inputX.value = null;
-        inputY.value = null;
-    }
-
-    button6.onclick = function () {
-        var inputX = document.getElementById("inputL1E6_1");
-        var inputY = document.getElementById("inputL1E6_2");
-        var output = document.getElementById("outputL1E6");
-        var valueX = inputX.value;
-        var valueY = inputY.value;
-
-        output.value = cirSqrAim(valueX, valueY);
-        inputX.value = null;
-        inputY.value = null;
+        output.value = cirSqrAim(inputX, inputY);
     }
 }

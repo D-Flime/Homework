@@ -1,115 +1,146 @@
 function lesson6() {
+	//Заголовки заданий
+	const exercisesName = ['Common Matrix', 'Sort Row Matrix (1, 2, 3, ...)', 'Sort Row Matrix (... , 3, 2, 1)', 
+										'Sort Colums Matrix (1, 2, 3, ...)', 'Sort Colums Matrix (... , 3, 2, 1)'];
+	//Добавляем урок
     addLesson("Matrix!");
-    for (var i = 1; i <= 5; i++) {
-        addExercise(6, i, 2);
-    }
+	//Добавляем задания
+	for (var i = 0; i < 5; i++) {addExercise(6, exercisesName[i], 2);}
+	//Добавляем поля вывода
+	for (var i = 1; i <= 5; i++) {addMatrixAnswer(6, i, 1);}
 
-    var button1 = document.getElementById("buttonL6E1");	//CreatingMatrix(x, y)
-    var button2 = document.getElementById("buttonL6E2");	//SortMatrixRows(1, 2, 3, ...)
-    var button3 = document.getElementById("buttonL6E3");	//SortMatrixRows(... , 3, 2, 1)
-    var button4 = document.getElementById("buttonL6E4");	//SortMatrixColums(1, 2, 3, ...)
-    var button5 = document.getElementById("buttonL6E5");	//SortMatrixColums(... , 3, 2, 1)
+    var contents = document.getElementsByClassName('content-elem');
+	var exercises = contents[5].getElementsByClassName('exercise');
 
-    button1.onclick = function () {
-        var input1 = document.getElementById("inputL6E1_1");
-        var input2 = document.getElementById("inputL6E1_2");
+    exercises[0].getElementsByClassName('enter-button')[0].onclick = function () {		//Создание обычной матрицы
+        var input1 = exercises[0].getElementsByClassName('input-field')[0].value - 0;
+        var input2 = exercises[0].getElementsByClassName('input-field')[1].value - 0;
+		var answerField = exercises[0].getElementsByClassName('answer')[0];
+		var matrixField = answerField.getElementsByClassName('matrix-field')[0];
+		
+		removeClass(answerField, 'hide');
+		addClass(answerField, 'show');
+		
+		genMatrixInputs(matrixField, input1, input2);
 
         var arr = [];
-        for (var i = 0; i < input1.value; i++) {
+        for (var i = 0; i < input1; i++) {
             arr[i] = [];
-            for (var j = 0; j < input2.value; j++) {
+            for (var j = 0; j < input2; j++) {
                 arr[i][j] = randomNumber(1, 9);
             }
         }
 
-        printMatrix("answerL6E1", arr);
+        printMatrix(matrixField, arr);
     }
 
-    button2.onclick = function () {
-        var input1 = document.getElementById("inputL6E2_1");
-        var input2 = document.getElementById("inputL6E2_2");
-        var output = document.getElementById("outputL6E2");
+    exercises[1].getElementsByClassName('enter-button')[0].onclick = function () {		//Сортированная по строкам матрица (1, 2, 3, ...)
+        var input1 = exercises[1].getElementsByClassName('input-field')[0].value - 0;
+        var input2 = exercises[1].getElementsByClassName('input-field')[1].value - 0;
+		var answerField = exercises[1].getElementsByClassName('answer')[0];
+		var matrixField = answerField.getElementsByClassName('matrix-field')[0];
+		
+		removeClass(answerField, 'hide');
+		addClass(answerField, 'show');
+		
+		genMatrixInputs(matrixField, input1, input2);
 
         var x = 1;
         var arr = [];
-        for (var i = 0; i < input1.value; i++) {
+        for (var i = 0; i < input1; i++) {
             arr[i] = [];
-            for (var j = 0; j < input2.value; j++) {
+            for (var j = 0; j < input2; j++) {
                 arr[i][j] = x;
                 x++;
             }
         }
 
-        printMatrix("answerL6E2", arr);
+        printMatrix(matrixField, arr);
     }
 
-    button3.onclick = function () {
-        var input1 = document.getElementById("inputL6E3_1");
-        var input2 = document.getElementById("inputL6E3_2");
-        var output = document.getElementById("outputL6E3");
+    exercises[2].getElementsByClassName('enter-button')[0].onclick = function () {		//Сортированная по строкам матрица (... , 3, 2, 1)
+        var input1 = exercises[2].getElementsByClassName('input-field')[0].value - 0;
+        var input2 = exercises[2].getElementsByClassName('input-field')[1].value - 0;
+		var answerField = exercises[2].getElementsByClassName('answer')[0];
+		var matrixField = answerField.getElementsByClassName('matrix-field')[0];
+		
+		removeClass(answerField, 'hide');
+		addClass(answerField, 'show');
+		
+		genMatrixInputs(matrixField, input1, input2);
 
-        var x = input1.value * input2.value;
+        var x = input1 * input2;
         var arr = [];
-        for (var i = 0; i < input1.value; i++) {
+        for (var i = 0; i < input1; i++) {
             arr[i] = [];
-            for (var j = 0; j < input2.value; j++) {
+            for (var j = 0; j < input2; j++) {
                 arr[i][j] = x;
                 x--;
             }
         }
 
-        printMatrix("answerL6E3", arr);
+        printMatrix(matrixField, arr);
     }
 
-    button4.onclick = function () {
-        var input1 = document.getElementById("inputL6E4_1");
-        var input2 = document.getElementById("inputL6E4_2");
-        var output = document.getElementById("outputL6E4");
+    exercises[3].getElementsByClassName('enter-button')[0].onclick = function () {		//Сортированная по столбцам матрица (1, 2, 3, ...)
+        var input1 = exercises[3].getElementsByClassName('input-field')[0].value - 0;
+        var input2 = exercises[3].getElementsByClassName('input-field')[1].value - 0;
+		var answerField = exercises[3].getElementsByClassName('answer')[0];
+		var matrixField = answerField.getElementsByClassName('matrix-field')[0];
+		
+		removeClass(answerField, 'hide');
+		addClass(answerField, 'show');
+		
+		genMatrixInputs(matrixField, input1, input2);
 
         var arr = [];
-        for (var i = 0; i < input1.value; i++) {
+        for (var i = 0; i < input1; i++) {
             arr[i] = [];
-            for (var j = 0; j < input2.value; j++) {
+            for (var j = 0; j < input2; j++) {
                 arr[i][j] = 0;
             }
         }
 
         var x = 1;
 
-        for (var j = 0; j < input2.value; j++) {
-            for (var i = 0; i < input1.value; i++) {
+        for (var j = 0; j < input2; j++) {
+            for (var i = 0; i < input1; i++) {
                 arr[i][j] = x;
                 x++;
             }
         }
         
-        
-        printMatrix("answerL6E4", arr);
+        printMatrix(matrixField, arr);
     }
 
-    button5.onclick = function () {
-        var input1 = document.getElementById("inputL6E5_1");
-        var input2 = document.getElementById("inputL6E5_2");
-        var output = document.getElementById("outputL6E5");
+    exercises[4].getElementsByClassName('enter-button')[0].onclick = function () {		//Сортированная по столбцам матрица (... , 3, 2, 1)
+        var input1 = exercises[4].getElementsByClassName('input-field')[0].value - 0;
+        var input2 = exercises[4].getElementsByClassName('input-field')[1].value - 0;
+		var answerField = exercises[4].getElementsByClassName('answer')[0];
+		var matrixField = answerField.getElementsByClassName('matrix-field')[0];
+		
+		removeClass(answerField, 'hide');
+		addClass(answerField, 'show');
+		
+		genMatrixInputs(matrixField, input1, input2);
 
         var arr = [];
-        for (var i = 0; i < input1.value; i++) {
+        for (var i = 0; i < input1; i++) {
             arr[i] = [];
-            for (var j = 0; j < input2.value; j++) {
+            for (var j = 0; j < input2; j++) {
                 arr[i][j] = 0;
             }
         }
 
-        var x = input1.value * input2.value;
+        var x = input1 * input2;
 
-        for (var j = 0; j < input2.value; j++) {
-            for (var i = 0; i < input1.value; i++) {
+        for (var j = 0; j < input2; j++) {
+            for (var i = 0; i < input1; i++) {
                 arr[i][j] = x;
                 x--;
             }
         }
 
-        printMatrix("answerL6E5", arr);
+        printMatrix(matrixField, arr);
     }
-
 }

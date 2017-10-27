@@ -1,47 +1,54 @@
 function lesson5() {
+	//Заголовки заданий
+	const exercisesName = ['Sum Nu 1', 'Sum Nu 2', 'Sum Nu 3'];
+	//Добавляем урок
     addLesson("Cycle agane!");
+	//Добавляем задания
+	for (var i = 0; i < 3; i++) {addExercise(5, exercisesName[i], 2);}
+	//Добавляем поля ответов
+    for (var i = 1; i <= 3; i++) {addAnswer(5, i);}
 
-    for (var i = 1; i <= 3; i++) {
-        addExercise(5, i, 2);
-        addAnswer(5, i);
-    }
+    var contents = document.getElementsByClassName('content-elem');
+	var exercises = contents[4].getElementsByClassName('exercise');
 
-    var button1 = document.getElementById('buttonL5E1');
-    var button2 = document.getElementById('buttonL5E2');
-    var button3 = document.getElementById('buttonL5E3');
-
-    button1.onclick = function () {
+    exercises[0].getElementsByClassName('enter-button')[0].onclick = function () {
         const EPS = 0.000001;
-        var input1 = document.getElementById('inputL5E1_1');
-        var input2 = document.getElementById('inputL5E1_2');
-        var output = document.getElementById('outputL5E1');
-        var S = 1, P = 1, q = 1 / input2.value, k = 0;
+        var input1 = exercises[0].getElementsByClassName('input-field')[0].value - 0;
+        var input2 = exercises[0].getElementsByClassName('input-field')[1].value - 0;
+        var output = exercises[0].getElementsByClassName('output-field')[0];
+		var answerField = exercises[0].getElementsByClassName('answer')[0];
+		
+		removeClass(answerField, 'hide');
+		addClass(answerField, 'show');
+        var S = 1, P = 1, q = 1 / input2, k = 0;
 
-        if (Math.abs(input2.value) > 1) {
+        if (Math.abs(input2) > 1) {
             alert("!!! abs(nu) <= 1 !!!");
             return;
         }
 
         while (Math.abs(P) >= EPS) {
             k++;
-            q *= input2.value;
-            P *= input1.value * q / k;
+            q *= input2;
+            P *= input1 * q / k;
             S += P;
         }
         output.value = S;
-        input1.value = null;
-        input2.value = null;
     }
 
-    button2.onclick = function () {
+    exercises[1].getElementsByClassName('enter-button')[0].onclick = function () {
         const EPS = 0.000001;
-        var input1 = document.getElementById('inputL5E2_1');
-        var input2 = document.getElementById('inputL5E2_2');
-        var output = document.getElementById('outputL5E2');
-        var S = 1, P = 1, q = input2.value, k = 0;
-        var t2 = Math.pow(input1.value, 2), nu4 = Math.pow(Math.pow(input1.value, 2), 2);
+        var input1 = exercises[1].getElementsByClassName('input-field')[0].value - 0;
+        var input2 = exercises[1].getElementsByClassName('input-field')[1].value - 0;
+        var output = exercises[1].getElementsByClassName('output-field')[0];
+		var answerField = exercises[1].getElementsByClassName('answer')[0];
+		
+		removeClass(answerField, 'hide');
+		addClass(answerField, 'show');
+        var S = 1, P = 1, q = input2, k = 0;
+        var t2 = Math.pow(input1, 2), nu4 = Math.pow(Math.pow(input1, 2), 2);
 
-        if (Math.abs(input2.value) > 1) {
+        if (Math.abs(input2) > 1) {
             alert("!!! abs(nu) <= 1 !!!");
             return;
         }
@@ -53,19 +60,21 @@ function lesson5() {
             S += P;
         }
         output.value = S;
-        input1.value = null;
-        input2.value = null;
     }
 
-    button3.onclick = function () {
+    exercises[2].getElementsByClassName('enter-button')[0].onclick = function () {
         const EPS = 0.000001;
-        var input1 = document.getElementById('inputL5E3_1');
-        var input2 = document.getElementById('inputL5E3_2');
-        var output = document.getElementById('outputL5E3');
-        var S = input1.value, P = input1.value, q = Math.pow(input2.value, 3), k = 0;
-        var t2 = Math.pow(input1.value, 2), nu4 = Math.pow(Math.pow(input1.value, 2), 2);
+        var input1 = exercises[2].getElementsByClassName('input-field')[0].value - 0;
+        var input2 = exercises[2].getElementsByClassName('input-field')[1].value - 0;
+        var output = exercises[2].getElementsByClassName('output-field')[0];
+		var answerField = exercises[2].getElementsByClassName('answer')[0];
+		
+		removeClass(answerField, 'hide');
+		addClass(answerField, 'show');
+        var S = input1, P = input1, q = Math.pow(input2, 3), k = 0;
+        var t2 = Math.pow(input1, 2), nu4 = Math.pow(Math.pow(input1, 2), 2);
 
-        if (Math.abs(input2.value) > 1) {
+        if (Math.abs(input2) > 1) {
             alert("!!! abs(nu) <= 1 !!!");
             return;
         }
@@ -77,7 +86,5 @@ function lesson5() {
             S += P;
         }
         output.value = S;
-        input1.value = null;
-        input2.value = null;
     }
 }
