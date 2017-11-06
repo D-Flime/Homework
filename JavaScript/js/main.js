@@ -9,8 +9,9 @@ function mainMenu() {
 				//Убираем выделение со всех кнопок
 				for (var j = 0; j < heads.length; j++) {
 					removeClass(heads[j], 'head-elem-selected');
-				}
-				addClass(this, 'head-elem-selected');	//Добавляем выделение на нужную кнопку
+                }
+                //Добавляем выделение на нужную кнопку
+				addClass(this, 'head-elem-selected');
 				//Скрываем весь контент
 				for (var j = 0; j < contents.length; j++) {
 					removeClass(contents[j], 'show');

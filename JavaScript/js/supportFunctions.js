@@ -36,7 +36,7 @@ function addExercise(lessonNumber, exerciseName, inputFieldsNumber) {
         var input = document.createElement("input");
         input.setAttribute("type", "text");
 		input.setAttribute("class", "input-field");
-		input.setAttribute("maxlength", 5);
+		input.setAttribute("maxlength", 6);
         exercise.appendChild(input);
 		//Переносим строку
 		if (i != inputFieldsNumber) {

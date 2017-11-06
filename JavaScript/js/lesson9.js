@@ -1,9 +1,10 @@
 //===== ===== ===== Ресурсная часть ===== ===== =====
 
-const partsOfLine = 3;		//Кол-во элементов в линии для победы
-var xoField = [];
-var fieldSize = 0;
-var moveCounter = 1;
+const PARTS_OF_LINE = 3;		//Кол-во элементов в линии для победы
+const MARKS = {X: 1, O: 0, EMPTY: null}     //Отметки на поле
+var xoField = [];       //Матрица игрового поля
+var fieldSize = 0;      //Размер игрового поля
+var moveCounter = 1;        //Счетчик ходов
 var users = {};
 var gamer_1, gamer_2;
 
@@ -18,8 +19,8 @@ function createXOGameField (elem, size) {
 	xoField = [];
 	for (var i = 0; i < fieldSize; i++) {
 		xoField[i] = [];
-		for (var j = 0; j < fieldSize; j++) {
-			xoField[i][j] = null;
+        for (var j = 0; j < fieldSize; j++) {
+            xoField[i][j] = MARKS.EMPTY;
 		}
 	}
 	//Создаем матрицу на странице
@@ -57,75 +58,184 @@ function gamersRegistration (gamer1, gamer2) {
 function gameLogic (xoField) {
 	var xCounter = 0;
 	var oCounter = 0;
-	//Проверка по горизонталям
+    //Проверка по горизонталям
+    xCounter = 0;
+    oCounter = 0;
 	for (var i = 0; i < fieldSize; i++) {
-		for (var j = 0; j < fieldSize; j++) {
-			if (xoField[i][j] == 1) {
+        for (var j = 0; j < fieldSize; j++) {
+            if (xoField[i][j] == MARKS.X) {
 				xCounter++;
 				oCounter = 0;
 			}
-			if (xoField[i][j] == 0) {
+            if (xoField[i][j] == MARKS.O) {
 				xCounter = 0;
 				oCounter++;
-			}
-			if (xoField[i][j] === null) {
+            }
+            if (xoField[i][j] === MARKS.EMPTY) {
 				xCounter = 0;
 				oCounter = 0;
 			}
-			if (xCounter == partsOfLine) {
-				return 1;
+            if (xCounter == PARTS_OF_LINE) {
+                return MARKS.X;
 			} 
-			if (oCounter == partsOfLine) {
-				return 0;
+            if (oCounter == PARTS_OF_LINE) {
+                return MARKS.O;
 			} 
-		}
+        }
+        xCounter = 0;
+        oCounter = 0;
 	}
-	//Проверка по вертикалям
+    //Проверка по вертикалям
+    xCounter = 0;
+    oCounter = 0;
 	for (var i = 0; i < fieldSize; i++) {
 		for (var j = 0; j < fieldSize; j++) {
-			if (xoField[j][i] == 1) {
+            if (xoField[j][i] == MARKS.X) {
 				xCounter++;
 				oCounter = 0;
 			}
-			if (xoField[j][i] == 0) {
+            if (xoField[j][i] == MARKS.O) {
 				xCounter = 0;
 				oCounter++;
-			}
-			if (xoField[j][i] === null) {
+            }
+            if (xoField[j][i] === MARKS.EMPTY) {
 				xCounter = 0;
 				oCounter = 0;
 			}
-			if (xCounter == partsOfLine) {
-				return 1;
+			if (xCounter == PARTS_OF_LINE) {
+                return MARKS.X;
 			} 
-			if (oCounter == partsOfLine) {
-				return 0;
+			if (oCounter == PARTS_OF_LINE) {
+                return MARKS.O;
 			} 
-		}
+        }
+        xCounter = 0;
+        oCounter = 0;
 	}
-	//Проверка по диагонали		(исправить)
-	for (var i = 0; i < fieldSize; i++) {
-		for (var j = 0; j < fieldSize; j++) {
-			if (xoField[i][j + i] == 1) {
+    //Проверка по главной диагонали
+    //По оси Y
+    xCounter = 0;
+    oCounter = 0;
+    for (var i = 0; i < fieldSize; i++) {
+        for (var j = 0; j < fieldSize; j++) {
+            if (xoField[j + i] === undefined ||
+                xoField[j + i][j] === undefined) {
+                break;
+            }
+            if (xoField[j + i][j] == MARKS.X) {
 				xCounter++;
 				oCounter = 0;
-			}
-			if (xoField[i][j + i] == 0) {
+            }
+            if (xoField[j + i][j] == MARKS.O) {
 				xCounter = 0;
 				oCounter++;
-			}
-			if (xoField[i][j + i] === null) {
+            }
+            if (xoField[j + i][j] === MARKS.EMPTY) {
 				xCounter = 0;
 				oCounter = 0;
 			}
-			if (xCounter == partsOfLine) {
-				return 1;
+			if (xCounter == PARTS_OF_LINE) {
+                return MARKS.X;
 			} 
-			if (oCounter == partsOfLine) {
-				return 0;
+			if (oCounter == PARTS_OF_LINE) {
+                return MARKS.O;
 			} 
-		}
-	}
+        }
+        xCounter = 0;
+        oCounter = 0;
+    }
+    //По оси X
+    xCounter = 0;
+    oCounter = 0;
+    for (var i = 0; i < fieldSize; i++) {
+        for (var j = 0; j < fieldSize; j++) {
+            if (xoField[j][j + i] === undefined) {
+                break;
+            }
+            if (xoField[j][j + i] == MARKS.X) {
+                xCounter++;
+                oCounter = 0;
+            }
+            if (xoField[j][j + i] == MARKS.O) {
+                xCounter = 0;
+                oCounter++;
+            }
+            if (xoField[j][j + i] === MARKS.EMPTY) {
+                xCounter = 0;
+                oCounter = 0;
+            }
+            if (xCounter >= PARTS_OF_LINE) {
+                return MARKS.X;
+            }
+            if (oCounter >= PARTS_OF_LINE) {
+                return MARKS.Y;
+            }
+        }
+        xCounter = 0;
+        oCounter = 0;
+    }
+    //Проверка по побочной диагонали
+    //По оси Y
+    xCounter = 0;
+    oCounter = 0;
+    for (var i = 0; i < fieldSize; i++) {
+        for (var j = 0; j < fieldSize; j++) {
+            if (xoField[j + i] === undefined ||
+                xoField[j + i][fieldSize - 1 - j] === undefined) {
+                break;
+            }
+            if (xoField[j + i][fieldSize - 1 - j] == MARKS.X) {
+                xCounter++;
+                oCounter = 0;
+            }
+            if (xoField[j + i][fieldSize - 1 - j] == MARKS.O) {
+                xCounter = 0;
+                oCounter++;
+            }
+            if (xoField[j + i][fieldSize - 1 - j] === MARKS.EMPTY) {
+                xCounter = 0;
+                oCounter = 0;
+            }
+            if (xCounter == PARTS_OF_LINE) {
+                return MARKS.X;
+            }
+            if (oCounter == PARTS_OF_LINE) {
+                return MARKS.O;
+            }
+        }
+        xCounter = 0;
+        oCounter = 0;
+    }
+    //По оси X
+    xCounter = 0;
+    oCounter = 0;
+    for (var i = 0; i < fieldSize; i++) {
+        for (var j = 0; j < fieldSize; j++) {
+            if (xoField[j][fieldSize - 1 - j - i] === undefined) {
+                break;
+            }
+            if (xoField[j][fieldSize - 1 - j - i] == MARKS.X) {
+                xCounter++;
+                oCounter = 0;
+            }
+            if (xoField[j][fieldSize - 1 - j - i] == MARKS.O) {
+                xCounter = 0;
+                oCounter++;
+            }
+            if (xoField[j][fieldSize - 1 - j - i] === MARKS.EMPTY) {
+                xCounter = 0;
+                oCounter = 0;
+            }
+            if (xCounter >= PARTS_OF_LINE) {
+                return MARKS.X;
+            }
+            if (oCounter >= PARTS_OF_LINE) {
+                return MARKS.O;
+            }
+        }
+        xCounter = 0;
+        oCounter = 0;
+    }
 	//Проверка на ничью
 	if (moveCounter > fieldSize * fieldSize) {return 2;}
 	//Ничего не произошло
@@ -133,33 +243,140 @@ function gameLogic (xoField) {
 }
 
 function checkingMove (fieldElem, output, moveResult) {
-	switch(moveResult) {
-		case 0:		//Победа второго игрока
+    switch (moveResult) {
+        case MARKS.O:		//Победа второго игрока
 			for (var i = 0; i < fieldElem.length; i++) {
 				fieldElem[i].setAttribute('disabled', true);
 			}
 			alert(users[gamer_2].name + ' is a winner!');
-			users[gamer_2].winCount++;
-			output.value = 'GC: ' + users[gamer_2].gameCount + '; WC: ' + users[gamer_2].winCount;
-			break;
-		case 1:		//Победа первого игрока
+            users[gamer_2].winCount++;
+            output.value = users[gamer_2].name + ': ' + 'Games: ' + users[gamer_2].gameCount + ', Wins: ' + users[gamer_2].winCount;
+            console.log(users);
+            break;
+        case MARKS.X:		//Победа первого игрока
 			for (var i = 0; i < fieldElem.length; i++) {
 				fieldElem[i].setAttribute('disabled', true);
 			}
 			alert(users[gamer_1].name + ' is a winner!');
 			users[gamer_1].winCount++;
-			output.value = 'GC: ' + users[gamer_1].gameCount + '; WC: ' + users[gamer_1].winCount;
+            output.value = users[gamer_1].name + ': ' + 'Games: ' + users[gamer_1].gameCount + ', Wins: ' + users[gamer_1].winCount;
+            console.log(users);
 			break;
 		case 2:		//Ничья
 			for (var i = 0; i < fieldElem.length; i++) {
 				fieldElem[i].setAttribute('disabled', true);
 			}
 			alert('Draw!');
-			output.value = 'Draw!';
+            output.value = 'Draw!';
+            console.log(users);
 			break;
 		default:
 			break;
 	}
+}
+
+function secondTurn(x, y, mark) {
+    if (fieldSize >= 5) {
+        for (var i = 0; i < 3; i++) {
+            for (var j = 0; j < 3; j++) {
+                if (xoField[x - 1 + i] === undefined ||
+                    xoField[x - 1 + i][y - 1 + j] === undefined) {
+                    continue;
+                }
+                if (i === 1 && j === 1) {
+                    continue;
+                } else {
+                    if (xoField[x - 1 + i][y - 1 + j] === mark) {
+                        return true;
+                    }
+                }
+            }
+        }
+    }
+    return false;
+}
+
+function ai(xoField, mark) {
+    //Создаем копию поля
+    var xo = [];
+    for (var i = 0; i < fieldSize; i++) {
+        xo[i] = [];
+        for (var j = 0; j < fieldSize; j++) {
+            xo[i][j] = xoField[i][j];
+        }
+    }
+    /* 
+    |ZZZZZ| Проверка победы |ZZZZZ|
+    */
+    for (var i = 0; i < fieldSize; i++) {
+        for (var j = 0; j < fieldSize; j++) {
+            if (xo[i][j] === MARKS.EMPTY) {
+                xo[i][j] = mark;
+                if (gameLogic(xo) === mark) {
+                    return i * fieldSize + j;
+                }
+                xo[i][j] = MARKS.EMPTY;
+            }
+        }
+    }
+    /* 
+    |ZZZZZ| Проверка победы противника |ZZZZZ|
+    */
+    var antiMark = (mark === MARKS.X) ? MARKS.O : MARKS.X;
+    for (var i = 0; i < fieldSize; i++) {
+        for (var j = 0; j < fieldSize; j++) {
+            if (xo[i][j] === MARKS.EMPTY) {
+                xo[i][j] = antiMark;
+                if (gameLogic(xo) === antiMark) {
+                    return i * fieldSize + j;
+                }
+                xo[i][j] = MARKS.EMPTY;
+            }
+        }
+    }
+    /* 
+    |ZZZZZ| Проверка победы через ход |ZZZZZ|
+    */
+    for (var i = 0; i < fieldSize; i++) {
+        for (var j = 0; j < fieldSize; j++) {
+            if (xo[i][j] === MARKS.EMPTY) {
+                xo[i][j] = mark;
+                for (var i1 = 0; i1 < fieldSize; i1++) {
+                    for (var j1 = 0; j1 < fieldSize; j1++) {
+                        if (xo[i1][j1] === MARKS.EMPTY) {
+                            xo[i1][j1] = mark;
+                            if (gameLogic(xo) === mark) {
+                                return i * fieldSize + j;
+                            }
+                            xo[i1][j1] = MARKS.EMPTY;
+                        }
+                    }
+                }
+                xo[i][j] = MARKS.EMPTY;
+            }
+        }
+    }
+    /* 
+    |ZZZZZ| Случайный ход |ZZZZZ|
+    */
+    while (true) {
+        var i = Math.floor(Math.random() * fieldSize);
+        var j = Math.floor(Math.random() * fieldSize);
+        if (xo[i][j] === MARKS.EMPTY) {
+            return i * fieldSize + j;
+            break;
+        }
+    }
+    return false;
+}
+
+function triggerEvent(el, type, keyCode) {
+    if ('createEvent' in document) {
+        var e = document.createEvent('HTMLEvents');
+        e.keyCode = keyCode;
+        e.initEvent(type, false, true);
+        el.dispatchEvent(e);
+    }
 }
 
 //===== ===== ===== Главная функция ===== ===== =====
@@ -202,9 +419,7 @@ function lesson9() {
 			alert("Gamer's nicknames must be different!");
 			return;
 		}
-		//Проявляем игровое поле
-		removeClass(answerField, 'hide');
-		addClass(answerField, 'show');
+		
 		//Назначаем "слушателей" на ячейки игрового поля
 		var xoFieldElems = matrixField.getElementsByClassName('matrix-elem');
 		
@@ -213,26 +428,47 @@ function lesson9() {
 				xoFieldElems[i].addEventListener('keyup', function(event) {
 					//Проверка нажатой клавиши
 					switch(event.keyCode) {
-						case 88: 		//Нажатие "Х"
-							if (moveCounter % 2 != 0) {
+                        case 88: 		//Нажатие "Х"
+                            if ((moveCounter % 2 !== 0 && moveCounter !== 3) ||
+                                (moveCounter === 3 && !secondTurn(Math.floor(i / fieldSize), Math.floor(i % fieldSize), MARKS.X))) {
 								this.value = 'X';
-								this.setAttribute('disabled', true);
-								xoField[Math.floor(i / fieldSize)][Math.floor(i % fieldSize)] = 1;
-								moveCounter++;
-								checkingMove(xoFieldElems, output, gameLogic(xoField));
+                                this.setAttribute('disabled', true);
+                                xoField[Math.floor(i / fieldSize)][Math.floor(i % fieldSize)] = MARKS.X;
+                                moveCounter++;
+                                if (gameLogic(xoField) !== 3) {
+                                    checkingMove(xoFieldElems, output, gameLogic(xoField));
+                                } else if (gamer_2 === 'Hard_AI') {
+                                    var step = ai(xoField, MARKS.O);
+                                    if (step !== false) {
+                                        triggerEvent(xoFieldElems[step], 'keyup', 79);
+                                    }
+                                }
 							} else {
-								this.value = '';
+                                this.value = '';
+                                if (gamer_1 === 'Hard_AI') {
+                                    var step = ai(xoField, MARKS.X);
+                                    if (step !== false) {
+                                        triggerEvent(xoFieldElems[step], 'keyup', 88);
+                                    }
+                                }
 							}
 							break;
 						case 79:		//Нажатие "О"
-							if (moveCounter % 2 == 0) {
+                            if (moveCounter % 2 === 0) {
 								this.value = 'O';
-								this.setAttribute('disabled', true);
-								xoField[Math.floor(i / fieldSize)][Math.floor(i % fieldSize)] = 0;
+                                this.setAttribute('disabled', true);
+                                xoField[Math.floor(i / fieldSize)][Math.floor(i % fieldSize)] = MARKS.O;
 								moveCounter++;
-								checkingMove(xoFieldElems, output, gameLogic(xoField));
+                                if (gameLogic(xoField) !== 3) {
+                                    checkingMove(xoFieldElems, output, gameLogic(xoField));
+                                } else if (gamer_1 === 'Hard_AI') {
+                                    var step = ai(xoField, MARKS.X);
+                                    if (step !== false) {
+                                        triggerEvent(xoFieldElems[step], 'keyup', 88);
+                                    }
+                                }
 							} else {
-								this.value = '';
+                                this.value = '';
 							}
 							break;
 						default:
@@ -241,6 +477,19 @@ function lesson9() {
 					}
 				});
 			})(i, output);
-		}
+        }
+
+        //Проявляем игровое поле
+        removeClass(answerField, 'hide');
+        addClass(answerField, 'show');
+
+        //Запускаем ход компьютера
+        if (gamer_1 === 'Hard_AI') {
+            var step = ai(xoField, MARKS.X);
+            if (step !== false) {
+                xoFieldElems[step].value = 'X';
+                triggerEvent(xoFieldElems[step], 'keyup', 88);
+            }
+        }
 	}
 }
